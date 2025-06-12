@@ -1,0 +1,30 @@
+name: verl github runner demo
+description: 'Build github runner with vemlp'
+inputs:
+  faas-url: 
+    description: 'Fass url'
+    required: true
+  image: 
+    description: 'vemlp image'
+    required: true
+outputs:
+    runner-label: ${{ steps.create-runner.outputs.runner_label }}
+    mlp-task-id: ${{ steps.create-runner.outputs.mlp_task_id }}
+runs:
+  using: "composite"
+  steps:
+    - name: create runner
+      id: create-runner
+      run: |
+        resp=$(curl -X POST "${{ inputs.faas-url }}" \
+        -d '{"Image": "${{ inputs.image }}"}')
+        echo $resp
+        runner_label=$(echo $resp | jq -r '.runner_label')
+        echo $runner_label
+        if [[ -z $runner_label || $runner_label == "null" ]]; then
+          echo "create runner failed"
+          exit 1
+        fi
+        echo "runner_label=$runner_label" >> $GITHUB_OUTPUT   
+        mlp_task_id=$(echo $resp | jq -r '.task_id')
+        echo "mlp_task_id=$mlp_task_id" >> $GITHUB_OUTPUT 
