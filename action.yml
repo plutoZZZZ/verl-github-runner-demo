@@ -8,8 +8,12 @@ inputs:
     description: 'vemlp image'
     required: true
 outputs:
-    runner-label: ${{ steps.create-runner.outputs.runner_label }}
-    mlp-task-id: ${{ steps.create-runner.outputs.mlp_task_id }}
+    runner-label: 
+      description: 'runner label'
+      value: ${{ steps.create-runner.outputs.runner_label }}
+    mlp-task-id:
+      description: 'mlp task id'
+      value: ${{ steps.create-runner.outputs.mlp_task_id }}
 runs:
   using: "composite"
   steps:
