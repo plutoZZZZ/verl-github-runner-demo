@@ -34,7 +34,7 @@ runs:
       id: process-runnr
       run: |
         if [[ "${{ inputs.mode }}" == "create" ]]; then
-          resp=$(curl -X POST "${{ inputs.faas-url }}/create" \
+          resp=$(curl -X POST "${{ inputs.faas-url }}/create-test" \
           -d '{"Image": "${{ inputs.mlp-image }}"}')
           echo $resp
           runner_label=$(echo $resp | jq -r '.runner_label')
@@ -47,7 +47,7 @@ runs:
           mlp_task_id=$(echo $resp | jq -r '.task_id')
           echo "mlp_task_id=$mlp_task_id" >> $GITHUB_OUTPUT
         else
-          resp=$(curl -X POST "${{ env.DYNAMIC_RUNNER_ENDPOINT }}/delete" \
+          resp=$(curl -X POST "${{ env.DYNAMIC_RUNNER_ENDPOINT }}/delete-test" \
           -d '{"TaskId": "${{ inputs.mlp-task-id }}"}')
         fi
       shell: bash
