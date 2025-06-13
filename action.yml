@@ -3,7 +3,7 @@ description: 'Build github runner with vemlp'
 inputs:
   mode:
     description: >-
-      create or destory
+      "create" or "destory"
     required: true
   faas-url: 
     description: >-
