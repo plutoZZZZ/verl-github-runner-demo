@@ -57,7 +57,7 @@ runs:
           echo mlp_task_id "$mlp_task_id"
           echo "mlp_task_id=$mlp_task_id" >> $GITHUB_OUTPUT
         else
-          resp=$(curl -X POST "${{ env.DYNAMIC_RUNNER_ENDPOINT }}/delete-test" \
+          resp=$(curl -X POST "${{ env.DYNAMIC_RUNNER_ENDPOINT }}/delete" \
           -d '{"TaskId": "${{ inputs.mlp-task-id }}"}')
         fi
       shell: bash
