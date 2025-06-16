@@ -35,14 +35,14 @@ runs:
       run: |
         RETRY_DELAY=$((RANDOM % 11))
         if [[ "${{ inputs.mode }}" == "create" ]]; then
-          resp=$(curl -X POST "${{ inputs.faas-url }}/create-test" \
+          resp=$(curl -X POST "${{ inputs.faas-url }}/create" \
           -d '{"Image": "${{ inputs.mlp-image }}"}')
           echo $resp
           status_code=$(echo $resp | jq -r '.error.status_code // empty')
           if [[ "$status_code" == "429" ]]; then
             echo "Received 429 error. Retrying in $RETRY_DELAY seconds..."
             sleep $RETRY_DELAY
-            resp=$(curl -X POST "${{ inputs.faas-url }}/create-test" \
+            resp=$(curl -X POST "${{ inputs.faas-url }}/create" \
             -d '{"Image": "${{ inputs.mlp-image }}"}')
             echo $resp
           fi
