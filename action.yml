@@ -37,14 +37,12 @@ runs:
         if [[ "${{ inputs.mode }}" == "create" ]]; then
           resp=$(curl -X POST "${{ inputs.faas-url }}/create" \
           -d '{"Image": "${{ inputs.mlp-image }}"}')
-          echo $resp
           status_code=$(echo $resp | jq -r '.error.status_code // empty')
           if [[ "$status_code" == "429" ]]; then
             echo "Received 429 error. Retrying in $RETRY_DELAY seconds..."
             sleep $RETRY_DELAY
             resp=$(curl -X POST "${{ inputs.faas-url }}/create" \
             -d '{"Image": "${{ inputs.mlp-image }}"}')
-            echo $resp
           fi
           runner_label=$(echo $resp | jq -r '.runner_label')
           echo $runner_label
